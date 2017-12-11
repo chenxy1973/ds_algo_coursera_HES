@@ -1,7 +1,8 @@
 # Uses python3
 import sys
 
-def binary_search(a, x):
+# First trial. But refused by grader due to time-exceeding-the-limit.
+def binary_search_0(a, x):
     left, right = 0, len(a)
     # write your code here
     if right == 0:  # There is no element in the input array
@@ -12,6 +13,52 @@ def binary_search(a, x):
         else:
             return -1
                 
+    middle = (left + right)//2
+    #print(left, right, middle)         
+    #print(middle)         
+    if x == a[middle]:
+        #print("A: ",middle)
+        return middle
+    elif x > a[middle]:
+        #print("B-1: ",middle)
+        m = binary_search_0(a[middle+1:],x)
+        #print("B-2: ",m)
+        if m >= 0:
+            return  m + middle + 1
+        return -1
+    else:
+        #print("C-1: ",middle)
+        m = binary_search_0(a[0:middle],x)
+        #print("C-2: ",m)
+        if m >= 0:
+            return  m
+        return -1
+
+# Even slower than binary_search_0! why?
+def binary_search(a, x):
+    left, right = 0, len(a)
+    # write your code here
+    #if right == 0:  # There is no element in the input array
+    #    return -1
+    #elif right == 1:  # There is only one element in the input array
+    if right == 1:
+        if x == a[0]:
+            return 0
+        else:
+            return -1
+    elif right == 2:
+        if x == a[0]:
+            return 0
+        elif x == a[1]:
+            return 1
+        else:
+            return -1
+#    if x in a:
+#        return a.index(x)
+#    else:
+#        return -1
+    
+    # len(a) >= 3           
     middle = (left + right)//2
     #print(left, right, middle)         
     #print(middle)         
