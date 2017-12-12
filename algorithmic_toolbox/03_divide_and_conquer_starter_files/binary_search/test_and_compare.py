@@ -39,14 +39,15 @@ for m in np.linspace(5000,20000,10):
     a_list = list(a)
     b = list(set(a_list))
     b.sort()
-    n = len(b)    
+    n = len(b)
+    print(len(a),len(b))
     
     dt1 = datetime.datetime.now()
     for x_idx in range(n):
         #x_idx = np.random.randint(n)    
         x     = b[x_idx]
-        k     = bs.binary_search(b,x)     
-        #k     = bs.linear_search(b,x)     
+        k     = bs.binary_search(b,x)
+        k_0     = bs.binary_search_0(b,x)
         assert k==x_idx,'k!=x_idx'
         
     dt2 = datetime.datetime.now()
@@ -54,16 +55,35 @@ for m in np.linspace(5000,20000,10):
     
     m_list.append(m_int)
     dt_list.append(delta.total_seconds())
-    print(len(a),len(b))
-      
+
+    dt1 = datetime.datetime.now()
+    for x_idx in range(n):
+        #x_idx = np.random.randint(n)    
+        x     = b[x_idx]
+        k     = bs.binary_search_0(b,x)
+        assert k==x_idx,'k!=x_idx'
+    
+    dt2 = datetime.datetime.now()
+    delta = dt2 - dt1
+    
+    dt_list_0.append(delta.total_seconds())
+   
 #print(m_list)
 #print(dt_list)
 m_array  = np.array(m_list)
 dt_array = np.array(dt_list)
-
+dt_array_0 = np.array(dt_list_0)
 plt.figure()
 plt.plot(m_array,dt_array)
-
+plt.plot(m_array,dt_array_0)
 plt.xlabel('input array size: m')
 plt.ylabel('total time[seconds] for m search over array with size of m')
+plt.legend(['binary_search','binary_search_0'], loc=0)
 
+#plt.figure()
+#norm_time = dt_array/dt_array[0]
+#expected  = m_array*m_array*np.log(m_array)/(m_array[0]*m_array[0]*np.log(m_array[0]))
+#plt.plot(m_array,norm_time)
+#plt.plot(m_array,expected)
+#plt.legend(['Measured normalized time','Theoretical value'], loc=0)
+#print(x_idx,x,b[x_idx],k)
