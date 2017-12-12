@@ -32,7 +32,6 @@ print(delta)
 #m = 50000
 m_list  = []
 dt_list = []
-dt_list_0 = []
 for m in np.linspace(5000,20000,10):
     m_int = int(m)
     a = np.random.randint(10**9,size = m_int)
@@ -42,12 +41,17 @@ for m in np.linspace(5000,20000,10):
     n = len(b)    
     
     dt1 = datetime.datetime.now()
-    for x_idx in range(n):
-        #x_idx = np.random.randint(n)    
+    for x_idx in range(-1,n+1):
+        #x_idx = np.random.randint(n)
+        if x_idx == -1:
+            x = b[0] - 1
+        elif x_idx == n:
+            x = b[n-1] + 1
+        else:    
         x     = b[x_idx]
         k     = bs.binary_search(b,x)     
         #k     = bs.linear_search(b,x)     
-        assert k==x_idx,'k!=x_idx'
+        assert k==x_idx or k==-1 or k==n,'k!=x_idx'
         
     dt2 = datetime.datetime.now()
     delta = dt2 - dt1
